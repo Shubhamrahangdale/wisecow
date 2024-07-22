@@ -38,9 +38,10 @@ main() {
 	echo "Wisdom served on port=$SRVPORT..."
 
 	while [ 1 ]; do
-		cat $RSPFILE | nc -lN $SRVPORT | handleRequest
+		cat $RSPFILE | nc -l $SRVPORT | handleRequest
 		sleep 0.01
 	done
 }
 
 main
+
