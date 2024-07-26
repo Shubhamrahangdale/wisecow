@@ -50,8 +50,8 @@ jobs:
 
     - name: Start Minikube
       run: |
-        sudo minikube start --driver=docker
-        sudo minikube update-context
+        minikube start --driver=docker
+        minikube update-context
 
     - name: Check Minikube status and config
       run: |
@@ -61,15 +61,19 @@ jobs:
 
     - name: Ensure Kubernetes configuration directory exists
       run: |
-        mkdir -p $HOME/.kube
+        mkdir -p $HOME/.kube  
 
-    - name: Copy Minikube configuration
+    - name: Set up Kubernetes configuration
       run: |
-        sudo cp -r /root/.minikube/profiles/minikube/* $HOME/.kube/
-        sudo chown -R $(id -u):$(id -g) $HOME/.kube
-        ls -l $HOME/.kube
+        # # mkdir -p $HOME/.kube
+        # sudo cp -r /root/.kube/* $HOME/.kube/
+        # sudo chown -R $(id -u):$(id -g) $HOME/.kube
+        # ls -l $HOME/.kube/config  
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+        ls -l $HOME/.kube/config
 
     - name: Deploy to Kubernetes
       run: |
-        kubectl apply -f deployment.yaml
-        kubectl apply -f service.yaml
+         kubectl apply -f deployment.yaml
+    #     kubectl apply -f service.yaml
