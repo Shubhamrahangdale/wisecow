@@ -72,10 +72,9 @@ jobs:
         # sudo chown -R $(id -u):$(id -g) $HOME/.kube
         # ls -la $HOME/.kube
         
-         mkdir -p $HOME/.kube 
-         sudo cp -r /root/.kube/* $HOME/.kube/
-         sudo chown -R $(id -u):$(id -g) $HOME/.kube
-         ls -la $HOME/.kube
+        mkdir -p $HOME/.kube
+        sudo cp -r /root/.kube $HOME/
+        sudo chown -R $(id -u):$(id -g) $HOME/.kube
         
         
         # ls -l $HOME/.kube/config  
