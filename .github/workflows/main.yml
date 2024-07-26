@@ -43,11 +43,7 @@ jobs:
         sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
     - name: Install kubectl
-      run: |
-        # curl -LO https://dl.k8s.io/release/v1.27.3/bin/linux/amd64/kubectl
-        # chmod +x ./kubectl
-        # sudo mv ./kubectl /usr/local/bin/kubectl
-        
+      run: |  
         curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
         chmod +x kubectl
         sudo mv kubectl /usr/local/bin/
@@ -67,8 +63,16 @@ jobs:
     - name: Set up Kubernetes configuration
       run: |
         mkdir -p $HOME/.kube
-        sudo cp -r /root/.kube/* $HOME/.kube/
+        sudo cp -r /root/.kube/* $HOME/.kube/ || true
+        sudo cp -r /root/.minikube/* $HOME/.minikube/ || true
         sudo chown -R $(id -u):$(id -g) $HOME/.kube
+        sudo chown -R $(id -u):$(id -g) $HOME/.minikube
+      
+
+         
+        # mkdir -p $HOME/.kube
+        # sudo cp -r /root/.kube/* $HOME/.kube/
+        # sudo chown -R $(id -u):$(id -g) $HOME/.kube
         
         
 
