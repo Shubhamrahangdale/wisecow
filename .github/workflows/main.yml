@@ -37,24 +37,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-
-  
-
     - name: Set up kubectl
       uses: azure/setup-kubectl@v1
       with:
         version: 'v1.27.3'
 
         
-  # - name: Set up Kubernetes
-    #   run: |
-    #     mkdir -p $HOME/.kube
-    #     echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+    - name: Set up Kubernetes
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
     
-    - name: Configure kubectl
-      run: |
-        echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+    # - name: Configure kubectl
+    #   run: |
+    #     echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
     - name: Deploy to Kubernetes
       run: |
