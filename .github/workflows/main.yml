@@ -54,9 +54,9 @@ jobs:
 
     - name: Start Minikube
       run: |
-        sudo minikube start --driver=docker
-        sudo minikube update-context
-        sudo minikube kubectl -- get pods
+         minikube start --driver=docker --force
+         minikube update-context
+         minikube kubectl -- get pods
 
     - name: Check Minikube status and config
       run: |
