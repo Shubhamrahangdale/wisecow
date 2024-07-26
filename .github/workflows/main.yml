@@ -39,30 +39,31 @@ jobs:
 
     - name: Install Minikube
       run: |
-          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          sudo install minikube-linux-amd64 /usr/local/bin/minikube
-        
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+    - name: Install kubectl
+      run: |
+        curl -LO https://dl.k8s.io/release/v1.27.3/bin/linux/amd64/kubectl
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+
     - name: Start Minikube
       run: |
-          minikube start --driver=docker
-          minikube update-context
+        minikube start --driver=docker
+        minikube update-context
 
-    - name: Check Minikube status
+    - name: Check Minikube status and config
       run: |
         minikube status
         kubectl config view
-        kubectl cluster-info  
+        kubectl cluster-info
 
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'v1.27.3'
-          
     - name: Set up Kubernetes configuration
       run: |
         mkdir -p $HOME/.kube
         echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
-        ls -l $HOME/.kube
+        ls -l $HOME/.kube/config
 
     - name: Deploy to Kubernetes
       run: |
