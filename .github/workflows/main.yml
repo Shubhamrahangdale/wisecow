@@ -65,7 +65,7 @@ jobs:
         echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
         ls -l $HOME/.kube/config
 
-    # - name: Deploy to Kubernetes
-    #   run: |
-    #     kubectl apply -f deployment.yaml
+    - name: Deploy to Kubernetes
+      run: |
+         kubectl apply -f deployment.yaml
     #     kubectl apply -f service.yaml
