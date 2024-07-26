@@ -41,25 +41,28 @@ jobs:
       run: |
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
-
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v1
-      with:
-        version: 'v1.27.3'
         
     - name: Start Minikube
       run: |
           minikube start --driver=docker
           minikube update-context
-          
-    - name: Set up Kubernetes
-      run: |
-        mkdir -p $HOME/.kube
-        echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
     - name: Check Minikube status
       run: |
-        kubectl cluster-info
+        minikube status
+        kubectl config view
+        kubectl cluster-info  
+
+    - name: Set up kubectl
+      uses: azure/setup-kubectl@v1
+      with:
+        version: 'v1.27.3'
+          
+    - name: Set up Kubernetes configuration
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+        ls -l $HOME/.kube
 
     - name: Deploy to Kubernetes
       run: |
