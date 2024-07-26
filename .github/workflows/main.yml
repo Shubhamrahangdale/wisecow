@@ -66,21 +66,10 @@ jobs:
         
     - name: Set up Kubernetes configuration
       run: |
-        mkdir -p $HOME/.minikube
-        sudo cp -r /root/.minikube/* $HOME/.minikube/
-        sudo chown -R $(id -u):$(id -g) $HOME/.minikube
         mkdir -p $HOME/.kube
         sudo cp -r /root/.kube/* $HOME/.kube/
         sudo chown -R $(id -u):$(id -g) $HOME/.kube
-          
-
-
-      
-        # sudo cp /root/.minikube/profiles/minikube/client.crt $HOME/.kube/
-        # sudo cp /root/.minikube/profiles/minikube/client.key $HOME/.kube/
-        # sudo cp /root/.minikube/ca.crt $HOME/.kube/
-        # sudo chown -R $(id -u):$(id -g) $HOME/.kube
-        # ls -la $HOME/.kube
+        
         
 
     - name: Deploy to Kubernetes
