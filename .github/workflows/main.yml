@@ -44,14 +44,19 @@ jobs:
 
     - name: Install kubectl
       run: |
-        curl -LO https://dl.k8s.io/release/v1.27.3/bin/linux/amd64/kubectl
-        chmod +x ./kubectl
-        sudo mv ./kubectl /usr/local/bin/kubectl
+        # curl -LO https://dl.k8s.io/release/v1.27.3/bin/linux/amd64/kubectl
+        # chmod +x ./kubectl
+        # sudo mv ./kubectl /usr/local/bin/kubectl
+        
+        curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+        chmod +x kubectl
+        sudo mv kubectl /usr/local/bin/
 
     - name: Start Minikube
       run: |
-        minikube start --driver=docker
-        minikube update-context
+        sudo minikube start --driver=docker
+        sudo minikube update-context
+        sudo minikube kubectl -- get pods
 
     - name: Check Minikube status and config
       run: |
@@ -65,17 +70,17 @@ jobs:
 
     - name: Set up Kubernetes configuration
       run: |
-        sudo cp /root/.minikube/profiles/minikube/client.crt $HOME/.kube/
-        sudo cp /root/.minikube/profiles/minikube/client.key $HOME/.kube/
-        sudo cp /root/.minikube/ca.crt $HOME/.kube/
-        sudo chown -R $(id -u):$(id -g) $HOME/.kube
-        ls -la $HOME/.kube
+        # sudo cp /root/.minikube/profiles/minikube/client.crt $HOME/.kube/
+        # sudo cp /root/.minikube/profiles/minikube/client.key $HOME/.kube/
+        # sudo cp /root/.minikube/ca.crt $HOME/.kube/
+        # sudo chown -R $(id -u):$(id -g) $HOME/.kube
+        # ls -la $HOME/.kube
 
       
-        # # # mkdir -p $HOME/.kube
-        # # sudo cp -r /root/.kube/* $HOME/.kube/
-        # # sudo chown -R $(id -u):$(id -g) $HOME/.kube
-        # # ls -l $HOME/.kube/config  
+        #  mkdir -p $HOME/.kube
+         sudo cp -r /root/.kube/* $HOME/.kube/
+         sudo chown -R $(id -u):$(id -g) $HOME/.kube
+        # ls -l $HOME/.kube/config  
         # mkdir -p $HOME/.kube
         # echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
         # ls -l $HOME/.kube/config
